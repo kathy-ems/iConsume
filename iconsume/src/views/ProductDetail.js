@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Animated,
   Image,
   Linking,
   ScrollView,
@@ -10,11 +11,29 @@ import {
 import moment from 'moment';
 
 export default class ProductDetail extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        animValue: new Animated.Value(0)
+    }
+  }
   componentWillMount() {
       let route = this.props.navigator.navigationContext.currentRoute;
       route.rightButtonTitle = `Buy Now: $${this.props.price}`;
       route.onRightButtonPress = () => Linking.openURL(this.props.link);
       this.props.navigator.replace(route); // this wont work in the simulator because it doens't know how to open the itunes app
+  }
+
+  componentDidMount() {
+    Animated.timing(
+      this.state.animValue, // is updated as it's animated
+      {
+        toValue: 1,
+        duration: 1000,
+        delay: 500
+      }
+    ).start();
   }
 
   getHighResImage(image) {
@@ -28,8 +47,10 @@ export default class ProductDetail extends Component {
   render () {
     return (
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <Image source={{ uri: this.getHighResImage(this.props.image) }} style={styles.image}>
-        </Image>
+        <Animated.View style={{transform: [{scale: this.state.animValue}]}}>
+          <Image source={{ uri: this.getHighResImage(this.props.image) }} style={styles.image}>
+          </Image>
+        </Animated.View>
         <Text style={styles.title}>
           {this.props.title}
         </Text>
