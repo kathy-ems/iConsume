@@ -28,9 +28,6 @@ import Help from './Help';
 export default class ProductListing extends Component {
   constructor(props) {
     super(props);
-    const exampleData = Array(100).fill({
-      title: 'this is placeholder'
-    }) // creates an array of x number with the same object
     const dataSource = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 != r2
     }); // determines if the row has changed and updates it (this is needed for react native)
@@ -38,7 +35,7 @@ export default class ProductListing extends Component {
     this.state = {
       searchType: 'Movie',
       networkActive: false,
-      dataSource: dataSource.cloneWithRows(exampleData) // made a datasource with this, cloned it and injected the data into the state
+      dataSource
     }
   }
 
