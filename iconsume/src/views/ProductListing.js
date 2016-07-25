@@ -22,6 +22,8 @@ import {
 
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import ProductDetail from './ProductDetail';
+import Help from './Help';
+
 
 export default class ProductListing extends Component {
   constructor(props) {
@@ -63,7 +65,7 @@ export default class ProductListing extends Component {
 
   helpTapped() {
     this.props.navigator.push({
-      component: ProductListing
+      component: Help
     })
   }
 
@@ -166,43 +168,36 @@ export default class ProductListing extends Component {
     }
   }
 
-  fetchData(url) {
+  async fetchData(url) {
     this.setSearchResults([]);
     this.setState({networkActive: true});
-    fetch(url)
-      .then((res) => {
-        return res.json()
-      })
-      .then((jsonRes) => {
-        let results = jsonRes.results.map((obj) => {
-          return {
-            title: obj.trackName,
-            collectionName: obj.collectionName,
-            summary: obj.longDescription || '[No Summary]',
-            releaseDate: obj.releaseDate,
-            price: obj.collectionPrice,
-            image: obj.artworkUrl100,
-            genre: obj.primaryGenreName,
-            link: obj.trackViewUrl,
-            duration: obj.trackTimeMillis
-          }
-        })
-        if (results.length > 0) {
-          this.setSearchResults(results);
-        } else {
-          // no results
-          Vibration.vibrate();
-          Alert.alert(
-            'No results!', 'Try again' // two parameters title and description
-          );
-        }
-        this.setState({networkActive: false});
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    let res = await fetch(url);
+    let jsonRes = await res.json();
+    let results = jsonRes.results.map((obj) => {
+      return {
+        title: obj.trackName,
+        collectionName: obj.collectionName,
+        summary: obj.longDescription || '[No Summary]',
+        releaseDate: obj.releaseDate,
+        price: obj.collectionPrice,
+        image: obj.artworkUrl100,
+        genre: obj.primaryGenreName,
+        link: obj.trackViewUrl,
+        duration: obj.trackTimeMillis
+      }
+    })
+    if (results.length > 0) {
+      this.setSearchResults(results);
+    } else {
+      // no results
+      Vibration.vibrate();
+      Alert.alert(
+        'No results!', 'Try again' // two parameters title and description
+      );
+    }
+    this.setState({networkActive: false});
   }
-}
+};
 
 const styles = StyleSheet.create({
   container: {
