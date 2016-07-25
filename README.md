@@ -3,5 +3,5 @@
 To Start App:
 - Clone App
 - Run npm install
-- Go to iConsume > ios > iconsume.xcodeproj
+- In finder, open iConsume > ios > iconsume.xcodeproj which will open Xcode
 - Press play
