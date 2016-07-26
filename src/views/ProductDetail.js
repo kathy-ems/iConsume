@@ -5,7 +5,8 @@ import {
   Linking,
   ScrollView,
   StyleSheet,
-  Text
+  Text,
+  View
 } from 'react-native';
 
 import moment from 'moment';
@@ -51,15 +52,19 @@ export default class ProductDetail extends Component {
           <Image source={{ uri: this.getHighResImage(this.props.image) }} style={styles.image}>
           </Image>
         </Animated.View>
-        <Text style={styles.title}>
-          {this.props.title}
-        </Text>
-        <Text style={styles.duration}>
-        Duration: {Math.round(moment.duration(this.props.duration, 'milliseconds').asMinutes())}
-        </Text>
-        <Text>
-          {this.formatSummary(this.props.summary)}
-        </Text>
+        <View style={styles.infoTitle}>
+          <Text style={styles.title}>
+            {this.props.title}
+          </Text>
+          <Text style={styles.duration}>
+          Duration: {Math.round(moment.duration(this.props.duration, 'milliseconds').asMinutes())} min
+          </Text>
+        </View>
+        <View style={styles.infoSummary}>
+          <Text style={styles.summary}>
+            {this.formatSummary(this.props.summary)}
+          </Text>
+        </View>
       </ScrollView>
     );
   }
@@ -72,16 +77,31 @@ const styles = StyleSheet.create({
   contentContainer: {
     backgroundColor: '#e3e3e3',
   }, // the container of the content (inside scrollview)
+  summary: {
+  },
   image: {
-    height: 300
+    height: 300,
+    borderRadius: 130,
+    margin: 15,
   },
   title: {
     fontSize: 30,
+  },
+  infoTitle: {
+    paddingLeft: 10,
+    paddingTop: 5,
+    paddingBottom: 5,
     backgroundColor: '#a9a9a9',
   },
+  summary: {
+    fontSize: 15,
+  },
+  infoSummary: {
+    padding: 10,
+  },
   duration: {
-    fontSize: 10,
-    color: 'grey'
+    fontSize: 15,
+    color: '#333333'
   }
 
 });
