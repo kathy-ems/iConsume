@@ -52,15 +52,22 @@ export default class ProductDetail extends Component {
           <Image source={{ uri: this.getHighResImage(this.props.image) }} style={styles.image}>
           </Image>
         </Animated.View>
-        <View style={styles.infoTitle}>
+        <View style={styles.titleContView}>
           <Text style={styles.title}>
-            {this.props.title}
-          </Text>
-          <Text style={styles.duration}>
-          Duration: {Math.round(moment.duration(this.props.duration, 'milliseconds').asMinutes())} min
+          {this.props.title}
           </Text>
         </View>
-        <View style={styles.infoSummary}>
+        <View style={styles.infoContView}>
+          <View style={styles.rowView}>
+            <Text style={styles.duration}>
+            Duration: {Math.round(moment.duration(this.props.duration, 'milliseconds').asMinutes())} min
+            </Text>
+            <Text style={styles.genre}>
+            Genre: {this.props.genre}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.summaryContView}>
           <Text style={styles.summary}>
             {this.formatSummary(this.props.summary)}
           </Text>
@@ -73,35 +80,61 @@ export default class ProductDetail extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#000000',
   }, // properties of the scrollView (whole page)
   contentContainer: {
-    backgroundColor: '#e3e3e3',
+    backgroundColor: '#000000',
+    flexDirection: 'column',           /* stack flex items vertically */
+    position: 'relative',               /* establish nearest positioned ancestor for
+                                     absolute positioning */
   }, // the container of the content (inside scrollview)
-  summary: {
-  },
   image: {
     height: 300,
-    borderRadius: 130,
-    margin: 15,
+    margin: 5,
+  },
+  titleContView: {
+    position: 'absolute',
+    left: 5,                        /* horizontal alignment */
+    top: 5,                        /* vertical alignment */
+    backgroundColor: 'rgba(204, 204, 204, .5)',
+    flexDirection: 'row',
   },
   title: {
     fontSize: 30,
+    color: '#FFFFFF',
+    opacity: 1,
+    flex: 1,
+    textAlign: 'center'
+
   },
-  infoTitle: {
+  infoContView: {
     paddingLeft: 10,
+    paddingRight: 10,
     paddingTop: 5,
     paddingBottom: 5,
-    backgroundColor: '#a9a9a9',
+    // backgroundColor: '#a9a9a9',
+    borderColor: '#a9a9a9',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
   },
-  summary: {
-    fontSize: 15,
-  },
-  infoSummary: {
-    padding: 10,
+  rowView: {
+    flexDirection: 'row',
   },
   duration: {
     fontSize: 15,
-    color: '#333333'
-  }
+    color: '#e3e3e3',
+    flex: 1
+  },
+  genre: {
+    fontSize: 15,
+    color: '#e3e3e3',
+  },
+  summaryContView: {
+    padding: 10,
+  },
+  summary: {
+    fontSize: 15,
+    color: '#e3e3e3'
+  },
 
 });
